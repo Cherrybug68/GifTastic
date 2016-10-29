@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>Document</title>
+	<title>Favorite TV Shows</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 	<link rel="stylesheet" type="text/css" href="assets/css/reset.css">
@@ -14,14 +14,23 @@
 
 <body>
 
+<div class="container">
 
+	<h1>TV Show Search</h1>
 
+	<div id="buttonsView"></div>
 
+	<form id="tv-form">
+		<label for="show-input">Add Your Favorite TV Show</label>
+		<input type="text" id="show-input"><br>
 
+		<input id="addTV" type="submit" value="Submit Show">
+	</form>
 
+	<div id="tvShowView"></div>
 
 
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
-<script src="assets/javascript/app.js"></script>
+<script src="assets/javascript/game.js"></script>
 </body>
 </html>
