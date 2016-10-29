@@ -1,58 +1,77 @@
 // Initial array of TV Shows
-var tvShows = ['Revolution', 'How to Get Away With Murder', 'M*A*S*H', 'Rat Patrol'];
+var tvShows = ['Revolution', 'How to Get Away With Murder', 'M*A*S*H'];
 
 // Display the TV Show pics
-function displayTVShowPic(){
-	
+function getData()
+	{ $('#tvShowView').empty();
+
 	var tvShow = $(this).attr('data-name');
-	var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + tvShow + "&limit=20&api_key=dc6zaTOxFJmzC";
+	console.log(tvShow);
+	var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + tvShow + "&api_key=dc6zaTOxFJmzC&limit=10";
 
 	// AJAX call for the specific tv show
-	$.ajax({url: queryURL, method: 'GET'}).done(function(response){
-		
-		console.log(response);
+	$.ajax({url: queryURL, method: 'GET'}).done(function(response)
+		{// console.log(response);
 
-		// Generic divs to hold tv show
-		$("#myTVShow").append("<p>Rating: " + response.data.rating + "</p>");
-		console.log(tvShow);
+		var results = response.data;
+		console.log(results.length);
 
-		$("#tvShowView").append('<p><img id="tvShowView" src = ' + response.data.images + '></p>');
-		console.log(tvShowView);
+		for (var i = 0; i < results.length; i++)
+			{// Generic divs to hold tv show
+
+			var div = $("<div>").attr("class", "img");
+
+			div.append("<p>Rating: " + results[i].rating + "</p>");
+			// console.log(tvShow);
+
+			div.append('<p><img src = "' + results[i].images.fixed_height.url + '"></p>');
+
+			$("#tvShowView").append(div);
+
+			console.log(results[i].images.fixed_height.url);
+		};
 	});
 }
 
 // function for displaying buttons
-function renderButtons(){
-
-	//Removes previous butttons
+function renderButtons()
+	{ //Removes previous butttons
 	$('#buttonsView').empty();
 
 	// Loop throught array to create the buttons
 	for (var i = 0; i < tvShows.length; i++){
 
-		var a = $('<button>');
-
-		a.addClass('tv');
-		a.attr('data-name', tvShows[i]);
-		a.text(tvShows[i]);
-		$('#buttonsView').append(a);
+	createButton(tvShows[i]);
 	}
-}
+	// event listener for button with class tv
+	$('.tv').on('click', getData);
+	}
 
-// function for handling the click event
-$('#addTV').on('click', function(){
 
-	var tvShow = $('#show-input').val().trim();
+// renders new/additional button when submit button is clicked
+$('#addTV').on('click', function()
+	{ var tvShow = $('#show-input').val().trim();
 
-	tvShows.push(tvShow);
+	// tvShows.push(tvShow);
 
-	renderButtons();
+	createButton(tvShow);
 
+	// event listener for button with class tv
+	$('.tv').on('click', getData);
 	return false;
-})
+	});
 
-// function for displaying TV Show gifs
-displayTVShowPic();
+
+function createButton(value)
+	{ var a = $('<button>');
+
+		a.attr("class",'tv');
+		a.attr('data-name', value);
+		console.log(a.attr("data-name"));
+		a.text(value);
+		$('#buttonsView').append(a);
+
+	}
 
 renderButtons();
 
